@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">FoodOrderGuest</string>
+    <string name="error_no_menu">Found no menu on our server :(</string>
+    <string name="error_no_orders">Found no orders on the server :(</string>
+    <string name="error_no_internet">NO INTERNET CONNECTION</string>
+    <string name="menu_fragment_text_top">FETCHING DATA...</string>
+    <string name="number_picker_title">Table Number: </string>
+    <string name="button_table_number">Choose Your Table Number</string>
+    <string name="button_submit_order">Submit Order</string>
+    <string name="check_box_processed_caption">processed</string>
+    <string name="button_assign_chief">Assign Chief</string>
+    <string name="switch_to_boss">Switch To Boss</string>
+    <string name="switch_to_guest">Switch To Guest</string>
+    <string name="button_refresh_menu">Refresh Menu</string>
+    <string name="button_refresh_orders">Refresh Orders</string>
+    <string name="info_refreshing">Refreshing...</string>
+    <string name="select_table">Please select you table number</string>
+    <string name="message_no_order">No order is make</string>
+</resources>
