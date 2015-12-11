@@ -1,6 +1,5 @@
 package me.alfredcao.android.foodorderguest;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +26,7 @@ import java.util.List;
  */
 public class OrderListFragment extends Fragment {
 
+    private static final String TAG = "OrderListFragment Class";
     private static final String FETCH_MENU_POST_URL =
             "http://cyssndy.azurewebsites.net";
     private RecyclerView mRecyclerView;
@@ -136,6 +137,7 @@ public class OrderListFragment extends Fragment {
     }
 
     private class OrderHolder extends RecyclerView.ViewHolder{
+        private FoodOrder mFoodOrder;
         private TextView mTableNumberTv;
         private TextView mOrderIdTv;
         private LinearLayout mDishQuantPairsLinearLayout;
@@ -144,7 +146,7 @@ public class OrderListFragment extends Fragment {
 
         public OrderHolder(View itemView){
             super(itemView);
-            mTableNumberTv = (TextView) itemView.findViewById(R.id.text_view_table_number);
+            mTableNumberTv = (TextView) itemView.findViewById(R.id.text_view_table_number_for_order);
             mOrderIdTv = (TextView) itemView.findViewById(R.id.text_view_order_id);
             mDishQuantPairsLinearLayout =
                     (LinearLayout) itemView.findViewById(R.id.linear_layout_order_detail);
@@ -162,21 +164,23 @@ public class OrderListFragment extends Fragment {
         }
 
         private void bindOrderHolder(FoodOrder foodOrder){
-            mTableNumberTv.setText(foodOrder.getTableNumber());
-            mOrderIdTv.setText(foodOrder.getFoodOrderLocalId().toString());
-            mProcessed.setChecked(foodOrder.isProcessed());
-            for(DishQuantPair dqp: foodOrder.getDishQuantPairs()){
-                RelativeLayout dishQuantRelativeLayout = new RelativeLayout(getActivity());
-                dishQuantRelativeLayout = (RelativeLayout)mDishQuantPairsLinearLayout
-                        .findViewById(R.id.linear_layout_dish_quant_pair);
-                TextView dishTv = new TextView(getActivity());
-                TextView quantTv = new TextView(getActivity());
-                dishTv = (TextView) dishQuantRelativeLayout
-                        .findViewById(R.id.text_view_dish_quant_pair_dish);
-                quantTv = (TextView) dishQuantRelativeLayout
-                        .findViewById(R.id.text_view_dish_quant_pair_quant);
+            mFoodOrder = foodOrder;
+            //Log.d(TAG, String.valueOf(mFoodOrder.getTableNumber()));
+            mTableNumberTv.setText(String.valueOf(mFoodOrder.getTableNumber()));
+            mOrderIdTv.setText(mFoodOrder.getFoodOrderLocalId().toString());
+            mProcessed.setChecked(mFoodOrder.isProcessed());
+            for(DishQuantPair dqp: mFoodOrder.getDishQuantPairs()){
+                View v = LayoutInflater.from(getActivity())
+                        .inflate(R.layout.dish_quant_pair,null,false);
+                RelativeLayout dishQuantRelativeLayout;
+                dishQuantRelativeLayout = (RelativeLayout) v
+                        .findViewById(R.id.relative_layout_dish_quant_pair);
+                TextView dishTv;
+                TextView quantTv;
+                dishTv = (TextView) v.findViewById(R.id.text_view_dish_quant_pair_dish);
+                quantTv = (TextView) v.findViewById(R.id.text_view_dish_quant_pair_quant);
                 dishTv.setText(dqp.getDishName());
-                quantTv.setText(dqp.getQuantity());
+                quantTv.setText(String.valueOf(dqp.getQuantity()));
 
                 mDishQuantPairsLinearLayout.addView(dishQuantRelativeLayout);
             }
