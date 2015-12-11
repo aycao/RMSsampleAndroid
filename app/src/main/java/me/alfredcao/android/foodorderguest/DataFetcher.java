@@ -23,6 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by cyssn on 2015-12-07.
@@ -129,7 +130,7 @@ public class DataFetcher {
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
         JSONObject orderJsonObj = new JSONObject();
         JSONObject orderHeaderObj = new JSONObject();
-        JSONArray orderDishQuantPairsObj = new JSONArray();
+        JSONArray orderDishQuantPairsArray = new JSONArray();
 
         boolean isSubmitOrder = false;
 
@@ -158,16 +159,16 @@ public class DataFetcher {
                 try {
                     orderHeaderObj.put("request", "submit-order");
                     orderHeaderObj.put("table-number", foodOrder.getTableNumber());
-                    orderHeaderObj.put("comment", foodOrder.getComment());
+                    orderHeaderObj.put("comment", foodOrder.getComment() + "");
                     orderHeaderObj.put("orderid",foodOrder.getFoodOrderLocalId().toString());
                     orderJsonObj.put("header", orderHeaderObj);
                     for(DishQuantPair dqp: foodOrder.getDishQuantPairs()){
                         JSONObject orderDishQuantPairObj = new JSONObject();
                         orderDishQuantPairObj.put("dish-name",dqp.getDishName());
                         orderDishQuantPairObj.put("quantity",dqp.getQuantity());
-                        orderDishQuantPairsObj.put(orderDishQuantPairObj);
+                        orderDishQuantPairsArray.put(orderDishQuantPairObj);
                     }
-                    orderJsonObj.put("dish-quant-pairs", orderDishQuantPairsObj);
+                    orderJsonObj.put("dish-quant-pairs", orderDishQuantPairsArray);
                 }catch(JSONException je){
                     Log.e(TAG,"error packing JSON Object for submitting order");
                     je.printStackTrace();
@@ -218,9 +219,9 @@ public class DataFetcher {
         }
         switch (requestTypeCode){
             case SUBMIT_ORDER:{
-                JSONArray resultArray = jsonBody.getJSONArray("success");
-                boolean successed = resultArray.getJSONObject(0).getBoolean("success");
-                returningString = resultArray.getJSONObject(0).getString("result_string");
+                JSONObject resultObject = jsonBody.getJSONObject("result");
+                boolean successed = resultObject.getBoolean("success");
+                returningString = resultObject.getString("result_string");
             }
         }
 
@@ -245,14 +246,7 @@ public class DataFetcher {
 
                 for (int i = 0; i < foodJsonArray.length(); i++) {
                     JSONObject foodJsonObject = foodJsonArray.getJSONObject(i);
-                    FoodItem food = new FoodItem();
-                    food.setDishName(foodJsonObject.getString("dish"));
-                    food.setDishPrice("$ " + foodJsonObject.getString("price"));
-                    String dishType = foodJsonObject.getString("dishtype");
-                    food.setDishType(dishType);
-                    String imageUrl = foodJsonObject.getString("imageurl");
-                    food.setImageUrl(imageUrl);
-
+                    FoodItem food = FoodItem.parseFromJSONObject(foodJsonObject);
                     returningItems.add(food);
                 }
                 break;
@@ -261,45 +255,18 @@ public class DataFetcher {
 
                 for (int i = 0; i < chiefJsonArray.length(); i++) {
                     JSONObject chiefJsonObject = chiefJsonArray.getJSONObject(i);
-                    Chief chief = new Chief();
-                    chief.setDishType(chiefJsonObject.getString("dishtype"));
-                    chief.setFirstName(chiefJsonObject.getString("firstname"));
-                    chief.setLastName(chiefJsonObject.getString("lastname"));
-
+                    Chief chief = Chief.parseFromJSONObject(chiefJsonObject);
                     returningItems.add(chief);
                 }
                 break;
             }case FETCH_ORDERS: {
                 returningItems = new ArrayList<FoodOrder>();
-                JSONArray orderJsonArray = jsonBody.getJSONArray("orders");
-
-                //these are for boxing orders to correct one order
-                ArrayList<DishQuantPair> dishQuantPairs= new ArrayList<DishQuantPair>();
-                String oldorderid = null;
-                String neworderid = null;
+                JSONArray orderJsonArray = jsonBody.getJSONArray("theorders");
 
                 for (int i = 0; i < orderJsonArray.length(); i++) {
                     JSONObject orderJsonObject = orderJsonArray.getJSONObject(i);
-                    neworderid = orderJsonObject.getString("orderid");
-                    if(neworderid == oldorderid){
-                        dishQuantPairs.add(new DishQuantPair(
-                                orderJsonObject.getString("dishname"),
-                                Integer.parseInt(orderJsonObject.getString("quantity"))
-                        ));
-                    }else{
-                        if(oldorderid == null){ //for first record
-                            oldorderid = neworderid;
-                        }else {
-                            FoodOrder order = new FoodOrder();
-                            order.setTableNumber(Integer.parseInt(orderJsonObject.getString("tablenumber")));
-                            order.setComment(orderJsonObject.getString("comment"));
-                            order.setDishQuantPairs(dishQuantPairs);
-                            order.setProcessed(Boolean.parseBoolean(orderJsonObject.getString("processed")));
-                            dishQuantPairs.clear();
-                            returningItems.add(order);
-                            oldorderid = neworderid;
-                        }
-                    }
+                    FoodOrder foodOrder = FoodOrder.parseFromJSONObject(orderJsonObject);
+                    returningItems.add(foodOrder);
                 }
                 break;
             }

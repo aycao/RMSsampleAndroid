@@ -1,5 +1,11 @@
 package me.alfredcao.android.foodorderguest;
 
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.awt.font.TextAttribute;
 import java.util.UUID;
 
 /**
@@ -7,6 +13,7 @@ import java.util.UUID;
  */
 public class FoodItem {
 
+    private static final String TAG = "FoodItem class";
     private String mDishName;
     private String mDishPrice;
     private String mImageUrl;
@@ -23,6 +30,24 @@ public class FoodItem {
     }
     public FoodItem(){
         mDishLocalID = UUID.randomUUID();
+    }
+
+    public static FoodItem parseFromJSONObject(JSONObject foodItemJsonObj){
+        try {
+            FoodItem food = new FoodItem();
+            food.setDishName(foodItemJsonObj.getString("dish"));
+            food.setDishPrice("$ " + foodItemJsonObj.getString("price"));
+            String dishType = foodItemJsonObj.getString("dishtype");
+            food.setDishType(dishType);
+            String imageUrl = foodItemJsonObj.getString("imageurl");
+            food.setImageUrl(imageUrl);
+
+            return food;
+        }catch(JSONException je){
+            Log.e(TAG,"Fail to parse JSON to Food Item");
+            je.printStackTrace();
+        }
+        return null;
     }
 
     public String getDishName() {
