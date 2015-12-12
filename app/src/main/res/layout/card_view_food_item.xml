@@ -57,7 +57,7 @@
                         android:id="@+id/edit_text_amount"
                         android:layout_width="50dp"
                         android:layout_height="fill_parent"
-                        android:editable="false"
+                        android:inputType="none"
                         android:text="0"
                         android:textAlignment="center"/>
                     <ImageButton

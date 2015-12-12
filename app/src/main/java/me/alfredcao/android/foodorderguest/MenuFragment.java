@@ -89,7 +89,8 @@ public class MenuFragment extends Fragment {
                 }
                 if (mFoodOrder.getDishQuantPairs().size() == 0) {
                     Dialog d = new AlertDialog.Builder(getActivity())
-                            .setTitle(R.string.message_no_order)
+                            .setTitle(R.string.error_title)
+                            .setMessage(R.string.message_no_order)
                             .create();
                     d.show();
                     return;
@@ -98,7 +99,7 @@ public class MenuFragment extends Fragment {
             }
         });
 
-        updateUI();
+        updateAdapter();
         return v;
     }
 
@@ -166,9 +167,7 @@ public class MenuFragment extends Fragment {
 
     private void updateAdapter(){
         FoodMaster foodMaster = FoodMaster.get(getActivity());
-        if(isAdded()){
-            foodMaster.setFoodItems(mMenu);
-        }
+        foodMaster.setFoodItems(mMenu);
         mFoodItemAdapter = new FoodItemAdapter(foodMaster.getFoodItems());
         mRecyclerView.setAdapter(mFoodItemAdapter);
 
@@ -176,10 +175,16 @@ public class MenuFragment extends Fragment {
             MyAnimateUtils.fadeOutView(mInfoTextView);
             MyAnimateUtils.fadeInView(mRecyclerView);
         }
+        try{
+            mFoodOrder.setTableNumber(Integer.parseInt(mButtonTable.getText().toString()));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void refreshMenu(){
         mFetchMenuErr = false;
+        mFoodOrder = new FoodOrder();
         MyAnimateUtils.showView(mInfoTextView);
         MyAnimateUtils.fadeOutView(mRecyclerView);
         mInfoTextView.setText(R.string.info_refreshing);
@@ -188,7 +193,8 @@ public class MenuFragment extends Fragment {
 
     private void makeNumberPickerDialog(){
         FragmentManager fm = getFragmentManager();
-        NumberPickerFragment nbrDialog = NumberPickerFragment.newInstance(null);//default table number, null for now
+        NumberPickerFragment nbrDialog = NumberPickerFragment.newInstance(
+                mFoodOrder.getTableNumber());//default table number, null for now
         nbrDialog.setTargetFragment(MenuFragment.this, REQUEST_TABLE_NUMBER);
         nbrDialog.show(fm, DIALOG_TABLE_NUMBER);
     }
@@ -238,6 +244,7 @@ public class MenuFragment extends Fragment {
             mFoodItem = foodItem;
             mDishNameTextView.setText(mFoodItem.getDishName());
             mDishPriceTextView.setText(mFoodItem.getDishPrice());
+            mAmountEditText.setText(String.valueOf(mFoodOrder.getDishQuant(foodItem)));
             //TODO add image
         }
 

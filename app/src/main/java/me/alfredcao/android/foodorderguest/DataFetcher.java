@@ -1,5 +1,6 @@
 package me.alfredcao.android.foodorderguest;
 
+import android.content.Intent;
 import android.util.Log;
 
 import org.apache.http.HttpResponse;
@@ -220,7 +221,7 @@ public class DataFetcher {
         switch (requestTypeCode){
             case SUBMIT_ORDER:{
                 JSONObject resultObject = jsonBody.getJSONObject("result");
-                boolean successed = resultObject.getBoolean("success");
+                boolean successed = Boolean.parseBoolean(resultObject.getString("success")) ;
                 returningString = resultObject.getString("result_string");
             }
         }
@@ -261,8 +262,12 @@ public class DataFetcher {
                 break;
             }case FETCH_ORDERS: {
                 returningItems = new ArrayList<FoodOrder>();
-                JSONArray orderJsonArray = jsonBody.getJSONArray("theorders");
+                int orderCount = Integer.parseInt( jsonBody.getString("ordercount"));
+                if(orderCount == 0){
+                    return returningItems;
+                }
 
+                JSONArray orderJsonArray = jsonBody.getJSONArray("theorders");
                 for (int i = 0; i < orderJsonArray.length(); i++) {
                     JSONObject orderJsonObject = orderJsonArray.getJSONObject(i);
                     FoodOrder foodOrder = FoodOrder.parseFromJSONObject(orderJsonObject);

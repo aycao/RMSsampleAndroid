@@ -43,13 +43,28 @@ public class FoodOrder {
         this.addDishQuant(foodItem, 1);
     }
     public void addDishQuant(FoodItem foodItem,int quantity){
+        for(DishQuantPair dqp: mDishQuantPairs){
+            if (dqp.getDishName() == foodItem.getDishName()){
+                dqp.setQuantity(dqp.getQuantity() + quantity);
+                return;
+            }
+        }
         mDishQuantPairs.add(new DishQuantPair(foodItem.getDishName(), quantity));
+    }
+
+    public int getDishQuant(FoodItem foodItem){
+        for(DishQuantPair dqp: mDishQuantPairs){
+            if (dqp.getDishName() == foodItem.getDishName()){
+                return dqp.getQuantity();
+            }
+        }
+        return 0;
     }
 
     public static FoodOrder parseFromJSONObject(JSONObject orderJsonObject){
         try {
             FoodOrder foodOrder =
-                    new FoodOrder(/*UUID.fromString(orderJsonObject.getString("orderid"))*/);
+                    new FoodOrder(UUID.fromString(orderJsonObject.getString("orderid")));
             foodOrder.setTableNumber(
                     Integer.parseInt(orderJsonObject.getString("table_number")));
             foodOrder.setComment(orderJsonObject.getString("comment"));

@@ -16,4 +16,5 @@
     <string name="info_refreshing">Refreshing...</string>
     <string name="select_table">Please select you table number</string>
     <string name="message_no_order">No order is make</string>
+    <string name="error_title">Error</string>
 </resources>
