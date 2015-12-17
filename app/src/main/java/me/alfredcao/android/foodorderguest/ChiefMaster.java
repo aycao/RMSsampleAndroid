@@ -18,10 +18,10 @@ public class ChiefMaster {
 
     public static ChiefMaster get (Context context){
         if(sChiefMaster == null){
-            ChiefMaster cm = new ChiefMaster(context);
+            sChiefMaster = new ChiefMaster(context);
 
             Log.d("ChiefMaster", "new ChiefMaster Created!!!");
-            return cm;
+            return sChiefMaster;
         }else{
             return sChiefMaster;
         }

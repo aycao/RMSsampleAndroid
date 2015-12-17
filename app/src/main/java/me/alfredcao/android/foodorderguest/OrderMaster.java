@@ -18,9 +18,9 @@ public class OrderMaster {
 
     public static OrderMaster get (Context context){
         if(sOrderMaster == null){
-            OrderMaster om = new OrderMaster(context);
+            sOrderMaster = new OrderMaster(context);
             Log.d("OrderMaster", "new OrderMaster Created!!!");
-            return om;
+            return sOrderMaster;
         }else{
             return sOrderMaster;
         }

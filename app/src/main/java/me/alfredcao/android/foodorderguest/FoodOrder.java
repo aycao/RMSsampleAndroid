@@ -21,8 +21,10 @@ public class FoodOrder {
     private ArrayList<DishQuantPair> mDishQuantPairs = new ArrayList<DishQuantPair>();
     private UUID mFoodOrderLocalId;
     private boolean mProcessed;
+    private boolean mCleared;
     private String mSubmitTime;
     private String mUpdateTime;
+    private String mChief;
 
     public FoodOrder(int tableNumber, ArrayList<DishQuantPair> dishQuantPairs, String comment) {
         mFoodOrderLocalId = UUID.randomUUID();
@@ -37,6 +39,9 @@ public class FoodOrder {
     }
     public FoodOrder(UUID id){
         mFoodOrderLocalId = id;
+        mProcessed = false;
+        mCleared = false;
+        mComment = "";
     }
 
     public void addDishQuant(FoodItem foodItem){
@@ -99,6 +104,11 @@ public class FoodOrder {
                 dishQuantPairs.add(dqp);
             }
             foodOrder.setDishQuantPairs(dishQuantPairs);
+
+            foodOrder.setProcessed(orderJsonObject.getInt("processed") == 1);
+            foodOrder.setCleared(orderJsonObject.getInt("cleared") == 1);
+            foodOrder.setChief(orderJsonObject.getString("chief"));
+
             return foodOrder;
 
         }catch (JSONException je){
@@ -158,5 +168,21 @@ public class FoodOrder {
 
     public void setUpdateTime(String updateTime) {
         mUpdateTime = updateTime;
+    }
+
+    public String getChief() {
+        return mChief;
+    }
+
+    public void setChief(String chief) {
+        mChief = chief;
+    }
+
+    public boolean isCleared() {
+        return mCleared;
+    }
+
+    public void setCleared(boolean cleared) {
+        mCleared = cleared;
     }
 }

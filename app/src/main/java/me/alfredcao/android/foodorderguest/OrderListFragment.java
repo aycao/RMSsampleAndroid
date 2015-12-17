@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,6 +40,17 @@ public class OrderListFragment extends Fragment {
         setRetainInstance(true);
         setHasOptionsMenu(true);
         new FetchOrdersTask().execute();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mOrderAdapter == null){
+            mOrderAdapter = new OrderAdapter(OrderMaster.get(getActivity()).getFoodOrders());
+            mRecyclerView.setAdapter(mOrderAdapter);
+        }else{
+            mOrderAdapter.notifyDataSetChanged();
+        }
     }
 
     @Nullable
@@ -89,7 +99,7 @@ public class OrderListFragment extends Fragment {
     }
 
     public static Intent newIntent(Context packageContext){
-        Intent i = new Intent(packageContext,OrderActivity.class);
+        Intent i = new Intent(packageContext,OrderListActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return i;
@@ -136,7 +146,7 @@ public class OrderListFragment extends Fragment {
         }
     }
 
-    private class OrderHolder extends RecyclerView.ViewHolder{
+    private class OrderHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private FoodOrder mFoodOrder;
         private TextView mTableNumberTv;
         private TextView mOrderIdTv;
@@ -160,7 +170,7 @@ public class OrderListFragment extends Fragment {
                     //TODO
                 }
             });
-
+            itemView.setOnClickListener(this);
         }
 
         private void bindOrderHolder(FoodOrder foodOrder){
@@ -184,6 +194,12 @@ public class OrderListFragment extends Fragment {
 
                 mDishQuantPairsLinearLayout.addView(dishQuantRelativeLayout);
             }
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent i = OrderPagerActivity.newIntent(getActivity(),mFoodOrder.getFoodOrderLocalId());
+            startActivity(i);
         }
     }
 

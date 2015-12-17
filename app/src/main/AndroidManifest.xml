@@ -9,11 +9,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
+
         <activity android:name=".MenuActivity"
             android:launchMode="singleInstance">
 
         </activity>
-        <activity android:name=".OrderActivity"
+
+        <activity android:name=".OrderListActivity"
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".OrderPagerActivity">
+
+        </activity>
+
     </application>
 
 </manifest>

@@ -162,6 +162,9 @@ public class DataFetcher {
                     orderHeaderObj.put("table-number", foodOrder.getTableNumber());
                     orderHeaderObj.put("comment", foodOrder.getComment() + "");
                     orderHeaderObj.put("orderid",foodOrder.getFoodOrderLocalId().toString());
+                    orderHeaderObj.put("processed", String.valueOf(foodOrder.isProcessed()));
+                    orderHeaderObj.put("cleared", String.valueOf(foodOrder.isCleared()));
+                    orderHeaderObj.put("chief", foodOrder.getChief());
                     orderJsonObj.put("header", orderHeaderObj);
                     for(DishQuantPair dqp: foodOrder.getDishQuantPairs()){
                         JSONObject orderDishQuantPairObj = new JSONObject();

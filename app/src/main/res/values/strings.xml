@@ -8,7 +8,8 @@
     <string name="button_table_number">Choose Your Table Number</string>
     <string name="button_submit_order">Submit Order</string>
     <string name="check_box_processed_caption">processed</string>
-    <string name="button_assign_chief">Assign Chief</string>
+    <string name="check_box_cleared_caption">cleared</string>
+    <string name="button_assign_chief">No Chief Assigned</string>
     <string name="switch_to_boss">Switch To Boss</string>
     <string name="switch_to_guest">Switch To Guest</string>
     <string name="button_refresh_menu">Refresh Menu</string>
@@ -17,4 +18,10 @@
     <string name="select_table">Please select you table number</string>
     <string name="message_no_order">No order is make</string>
     <string name="error_title">Error</string>
+    <string name="text_view_order_detail_table_number_title">Table Number</string>
+    <string name="text_view_order_detail_order_id_title">Order ID</string>
+    <string name="text_view_order_detail_action_title">Actions</string>
+    <string name="text_view_order_detial_fooditems_title">Order Details</string>
+    <string name="text_view_order_detail_chief_title">Assigned Chief</string>
+    <string name="text_view_order_detail_comment_title">Comment</string>
 </resources>

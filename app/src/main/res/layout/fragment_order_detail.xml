@@ -1,6 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_margin="16dp">
+    <TextView
+        android:text="@string/text_view_order_detail_table_number_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:listSeparatorTextViewStyle"/>
+    <TextView
+        android:id="@+id/text_view_order_detail_table_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance_order_detail"
+        tools:text="88"/>
+    <TextView
+        android:text="@string/text_view_order_detail_order_id_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:listSeparatorTextViewStyle"/>
+    <TextView
+        android:id="@+id/text_view_order_detail_order_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance_order_detail"
+        tools:text="f78e9w-a7f-e7fw89a-f78e9w7a-ewsa"/>
 
-</ViewPager>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_view_order_detail_chief_title"
+        style="?android:listSeparatorTextViewStyle"/>
+    <TextView
+        android:id="@+id/text_view_order_detail_chief"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance_order_detail"
+        tools:text="Alfred Nobel"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_view_order_detail_comment_title"
+        style="?android:listSeparatorTextViewStyle"/>
+    <TextView
+        android:id="@+id/text_view_order_detail_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance_order_detail"
+        tools:text="Do Not put beef and chicken together!!!"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_view_order_detail_action_title"
+        style="?android:listSeparatorTextViewStyle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        style="@style/TextAppearance_order_detail">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/check_box_processed_caption"/>
+            <CheckBox
+                android:id="@+id/checkbox_order_processed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/check_box_cleared_caption"/>
+            <CheckBox
+                android:id="@+id/checkbox_order_cleared"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="none"/>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/button_assign_chief"
+            style="@style/Base.Widget.AppCompat.ActionButton"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_view_order_detial_fooditems_title"
+        style="?android:listSeparatorTextViewStyle"/>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_fooditems_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance_order_detail"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+</LinearLayout>

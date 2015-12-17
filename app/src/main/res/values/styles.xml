@@ -7,5 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    <style name="TextAppearance_order_detail">
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+    </style>
 </resources>

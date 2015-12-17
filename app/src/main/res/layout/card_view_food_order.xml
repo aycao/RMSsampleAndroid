@@ -54,6 +54,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"/>
+                    <CheckBox
+                        android:id="@+id/checkbox_order_cleared"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/checkbox_order_processed"
+                        android:inputType="none"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -61,12 +68,19 @@
                         android:layout_toLeftOf="@id/checkbox_order_processed"
                         android:layout_alignBaseline="@id/checkbox_order_processed"/>
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/check_box_cleared_caption"
+                        android:layout_toLeftOf="@id/checkbox_order_cleared"
+                        android:layout_below="@id/checkbox_order_processed"
+                        android:layout_alignBaseline="@id/checkbox_order_cleared"/>
+                    <TextView
                         android:id="@+id/text_view_assign_chief"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
                         android:text="@string/button_assign_chief"
-                        android:layout_below="@id/text_view_order_id"
+                        android:layout_below="@id/checkbox_order_cleared"
                         android:layout_alignParentRight="true"
                         style="@style/Base.TextAppearance.AppCompat.Widget.Button"/>
 

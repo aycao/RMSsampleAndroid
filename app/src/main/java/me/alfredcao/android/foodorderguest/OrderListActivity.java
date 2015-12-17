@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 /**
  * Created by cyssn on 2015-12-09.
  */
-public class OrderActivity extends OneFragmentActivity {
+public class OrderListActivity extends OneFragmentActivity {
     @Override
     public Fragment createFragment() {
         return OrderListFragment.newInstance();
