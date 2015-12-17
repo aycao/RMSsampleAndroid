@@ -7,8 +7,8 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view_card"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:layout_width="260dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="16dp"
@@ -16,13 +16,24 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/image_view_dish_image"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/ic_action_sun"/>
+                <TextView
+                    android:id="@+id/text_view_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    tools:text="$123.45"/>
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/image_view_dish_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/ic_action_sun"
-                />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,21 +45,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:textSize="22dp"
+                    android:textSize="20sp"
                     android:padding="8dp"
                     tools:text="This is the dish name"/>
-                <TextView
-                    android:id="@+id/text_view_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/text_view_dish"
-                    android:padding="8dp"
-                    tools:text="$123.45"/>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@id/text_view_dish">
+                    android:layout_alignParentBottom="true">
 
                     <ImageButton
                         android:id="@+id/button_minus"
@@ -58,11 +63,11 @@
                         android:background="@null"/>
                     <EditText
                         android:id="@+id/edit_text_amount"
-                        android:layout_width="50dp"
+                        android:layout_width="30dp"
                         android:layout_height="fill_parent"
                         android:inputType="none"
                         android:text="0"
-                        android:textAlignment="center"/>
+                        android:gravity="center"/>
                     <ImageButton
                         android:id="@+id/button_plus"
                         android:layout_width="wrap_content"

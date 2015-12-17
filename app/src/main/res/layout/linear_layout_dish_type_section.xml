@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text = "THIS IS THE FOODTYPE"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         style="@style/Base.TextAppearance.AppCompat.Title"/>
     <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_dish_type_section"

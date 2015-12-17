@@ -45,9 +45,10 @@
                         android:id="@+id/text_view_order_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="7dp"
+                        android:paddingTop="6dp"
+                        android:textSize="10sp"
                         android:layout_below="@id/text_view_table_number_for_order"
-                        tools:text="orderid"/>
+                        tools:text="d7g89-rw78a9g-7r89we7-a87g8r9e-a74g3wsyg343ws45y"/>
 
                     <CheckBox
                         android:id="@+id/checkbox_order_processed"
