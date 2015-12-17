@@ -12,16 +12,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,10 +45,11 @@ public class MenuFragment extends Fragment {
     private static final String DIALOG_TABLE_NUMBER = "number picker dialog";
     private static final int REQUEST_TABLE_NUMBER = 1;
 
-    private RecyclerView mRecyclerView;
+//    private RecyclerView mRecyclerView;
+    private ListView mListView;
+
     private FoodItemAdapter mFoodItemAdapter;
     private TextView mInfoTextView;
-    private List<FoodItem> mMenu = new ArrayList<FoodItem>();
     private Button mButtonTable;
     private Button mButtonSubmit;
     private boolean mFetchMenuErr;
@@ -68,8 +73,9 @@ public class MenuFragment extends Fragment {
         mButtonTable = (Button) v.findViewById(R.id.button_table_number);
         mButtonSubmit = (Button) v.findViewById(R.id.button_submit_order);
         mInfoTextView = (TextView) v.findViewById(R.id.text_view_menu_fragment_top);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_menu_fragment);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_menu_fragment);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mListView = (ListView) v.findViewById(R.id.list_view_dish_type_section);
 
         mButtonTable.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,20 +171,20 @@ public class MenuFragment extends Fragment {
     public void updateUI(){
         FoodMaster foodMaster = FoodMaster.get(getActivity());
 
-        if(mFoodItemAdapter == null) {
-            mFoodItemAdapter = new FoodItemAdapter(foodMaster.getFoodItems());
-        }
-        mRecyclerView.setAdapter(mFoodItemAdapter);
+//        if(mFoodItemAdapter == null) {
+//            mFoodItemAdapter = new FoodItemAdapter(foodMaster.getFoodItems());
+//        }
+//        mRecyclerView.setAdapter(mFoodItemAdapter);
     }
 
     private void updateAdapter(){
         FoodMaster foodMaster = FoodMaster.get(getActivity());
-        mFoodItemAdapter = new FoodItemAdapter(foodMaster.getFoodItems());
-        mRecyclerView.setAdapter(mFoodItemAdapter);
+//        mFoodItemAdapter = new FoodItemAdapter(foodMaster.getFoodItems());
+//        mRecyclerView.setAdapter(mFoodItemAdapter);
 
         if(!mFetchMenuErr) {
             MyAnimateUtils.fadeOutView(mInfoTextView);
-            MyAnimateUtils.fadeInView(mRecyclerView);
+//            MyAnimateUtils.fadeInView(mRecyclerView);
         }
         try{
             mFoodOrder.setTableNumber(Integer.parseInt(mButtonTable.getText().toString()));
@@ -191,9 +197,61 @@ public class MenuFragment extends Fragment {
         mFetchMenuErr = false;
         mFoodOrder = new FoodOrder();
         MyAnimateUtils.showView(mInfoTextView);
-        MyAnimateUtils.fadeOutView(mRecyclerView);
+//        MyAnimateUtils.fadeOutView(mRecyclerView);
         mInfoTextView.setText(R.string.info_refreshing);
         new FetchMenuPOSTTask().execute();
+    }
+
+    private void updateList(){
+        List<FoodItem> foodItems = FoodMaster.get(getActivity()).getFoodItems();
+        String currentDishType;
+        if (foodItems.size() > 0){
+            currentDishType = foodItems.get(0).getDishType();
+        }
+        ArrayList<View> dishTypeViewsList = new ArrayList<View>();
+
+        while(foodItems.size() > 0) {
+            List<FoodItem> dishTypeFoodItems = new ArrayList<FoodItem>();
+            currentDishType = foodItems.get(0).getDishType();
+            View v = LayoutInflater.from(getActivity())
+                    .inflate(R.layout.linear_layout_dish_type_section,null,false);
+            LinearLayout dishTypeSectionLinearLayout = (LinearLayout)
+                    v.findViewById(R.id.linear_layout_dish_type_section);
+            TextView dishTypeSectionTitleTv =
+                    (TextView) v.findViewById(R.id.text_view_dish_type_section_title);
+            RecyclerView dishTypeSectionRecyclerView =
+                    (RecyclerView) v.findViewById(R.id.recycler_view_dish_type_section);
+            dishTypeSectionTitleTv.setText(currentDishType.toUpperCase());
+
+            for (FoodItem foodItem: foodItems){
+                if(foodItem.getDishType().equals(currentDishType)){
+                    dishTypeFoodItems.add(foodItem);
+                }
+            }
+
+//            LinearLayoutManager lym =
+//                    new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+            dishTypeSectionRecyclerView.setLayoutManager(
+                    new CustomLinearLayoutManager(getActivity(),
+                    LinearLayoutManager.HORIZONTAL,
+                    false));
+            FoodItemAdapter adapter = new FoodItemAdapter(dishTypeFoodItems);
+            dishTypeSectionRecyclerView.setAdapter(adapter);
+
+            dishTypeViewsList.add(v);
+
+            //remove processed ones
+            foodItems.removeAll(dishTypeFoodItems);
+            Log.d(TAG, String.valueOf(dishTypeFoodItems.size()));
+            Log.d(TAG,"Added one dish Type" );
+        }
+
+        ArrayAdapter dishTypeListViewAdaper =
+                new ArrayListViewAdapter(getActivity(),
+                        R.layout.linear_layout_dish_type_section,
+                        dishTypeViewsList);
+
+        mListView.setAdapter(dishTypeListViewAdaper);
     }
 
     private void makeNumberPickerDialog(){
@@ -203,6 +261,33 @@ public class MenuFragment extends Fragment {
         nbrDialog.setTargetFragment(MenuFragment.this, REQUEST_TABLE_NUMBER);
         nbrDialog.show(fm, DIALOG_TABLE_NUMBER);
     }
+
+    private class ArrayListViewAdapter extends ArrayAdapter<View>{
+
+        private Context mContext;
+        private int mLayoutID;
+        private List<View> mViews;
+
+        public ArrayListViewAdapter(Context context, int resource, List<View> objects) {
+            super(context, resource, objects);
+            mContext = context;
+            mLayoutID = resource;
+            mViews = objects;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            //super.getView(position, convertView, parent);
+
+            if(convertView == null) {
+                convertView = mViews.get(position);
+            }
+
+            return convertView;
+        }
+    }
+
+
 
     private class FoodItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private FoodItem mFoodItem;
@@ -312,6 +397,7 @@ public class MenuFragment extends Fragment {
             }
             FoodMaster.get(getActivity()).setFoodItems(getResultMenu());
             updateAdapter();
+            updateList();
         }
 
     }
