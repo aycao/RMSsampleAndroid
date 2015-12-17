@@ -19,13 +19,9 @@ public class FoodMaster {
 
     public static FoodMaster get (Context context){
         if(sFoodMaster == null){
-            FoodMaster fm = new FoodMaster(context);
-            /*for(int i = 0; i < 15; i++){
-                FoodItem fi = new FoodItem("dish" + String.valueOf(i),"$123.45");
-                fm.addItem(fi);
-            }*/
+           sFoodMaster = new FoodMaster(context);
             Log.d("FoodMaster", "new FoodMaster Created!!!");
-            return fm;
+            return sFoodMaster;
         }else{
             return sFoodMaster;
         }

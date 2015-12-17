@@ -46,10 +46,31 @@ public class FoodOrder {
         for(DishQuantPair dqp: mDishQuantPairs){
             if (dqp.getDishName() == foodItem.getDishName()){
                 dqp.setQuantity(dqp.getQuantity() + quantity);
+                if(dqp.getQuantity() == 0){
+                    this.removeDishQuant(dqp);
+                }
                 return;
             }
         }
         mDishQuantPairs.add(new DishQuantPair(foodItem.getDishName(), quantity));
+    }
+
+    public void removeDishQuant(FoodItem foodItem){
+        for(DishQuantPair dqp: mDishQuantPairs){
+            if (dqp.getDishName() == foodItem.getDishName()){
+                mDishQuantPairs.remove(dqp);
+                return;
+            }
+        }
+    }
+
+    public void removeDishQuant(DishQuantPair dishQuantPair){
+        for(DishQuantPair dqp: mDishQuantPairs){
+            if (dqp.equals(dishQuantPair)){
+                mDishQuantPairs.remove(dqp);
+                return;
+            }
+        }
     }
 
     public int getDishQuant(FoodItem foodItem){

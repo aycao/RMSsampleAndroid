@@ -56,8 +56,7 @@ public class MenuFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         setHasOptionsMenu(true);
-        new FetchMenuPOSTTask().execute();
-        mFoodOrder = new FoodOrder();
+
     }
 
     @Nullable
@@ -99,8 +98,15 @@ public class MenuFragment extends Fragment {
             }
         });
 
-        updateAdapter();
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        new FetchMenuPOSTTask().execute();
+        mFoodOrder = new FoodOrder();
+        updateAdapter();
     }
 
     @Override
@@ -167,7 +173,6 @@ public class MenuFragment extends Fragment {
 
     private void updateAdapter(){
         FoodMaster foodMaster = FoodMaster.get(getActivity());
-        foodMaster.setFoodItems(mMenu);
         mFoodItemAdapter = new FoodItemAdapter(foodMaster.getFoodItems());
         mRecyclerView.setAdapter(mFoodItemAdapter);
 
@@ -294,7 +299,7 @@ public class MenuFragment extends Fragment {
         @Override
         protected void onPostExecute(List<FoodItem> foodItems) {
             super.onPostExecute(foodItems);
-            mMenu = foodItems;
+            FoodMaster.get(getActivity()).setFoodItems(foodItems);
             updateAdapter();
         }
     }
@@ -317,13 +322,14 @@ public class MenuFragment extends Fragment {
     private class FetchMenuPOSTTask extends POSTUtils.FetchMenuUsingPOSTTask{
         @Override
         public void updateUI() {
-            mMenu = getResultMenu();
             mFetchMenuErr = isHasErr();
             if (mFetchMenuErr){
                 mInfoTextView.setText(getErrMsg());
             }
+            FoodMaster.get(getActivity()).setFoodItems(getResultMenu());
             updateAdapter();
         }
+
     }
 
     private class SubmitOrderPOSTTask extends POSTUtils.SubmitOrderPOSTTask{
