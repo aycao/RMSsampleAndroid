@@ -11,7 +11,8 @@
         android:theme="@style/AppTheme" >
 
         <activity android:name=".MenuActivity"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            android:label="@string/label_menu">
 
         </activity>
 
@@ -24,7 +25,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".OrderPagerActivity">
+        <activity android:name=".OrderPagerActivity"
+            android:label="@string/label_order_detail"
+            android:parentActivityName=".OrderListActivity">
 
         </activity>
 

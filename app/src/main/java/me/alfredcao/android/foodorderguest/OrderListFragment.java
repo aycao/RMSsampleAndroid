@@ -179,6 +179,8 @@ public class OrderListFragment extends Fragment {
             mTableNumberTv.setText(String.valueOf(mFoodOrder.getTableNumber()));
             mOrderIdTv.setText(mFoodOrder.getFoodOrderLocalId().toString());
             mProcessed.setChecked(mFoodOrder.isProcessed());
+
+            mDishQuantPairsLinearLayout.removeAllViews();
             for(DishQuantPair dqp: mFoodOrder.getDishQuantPairs()){
                 View v = LayoutInflater.from(getActivity())
                         .inflate(R.layout.dish_quant_pair,null,false);

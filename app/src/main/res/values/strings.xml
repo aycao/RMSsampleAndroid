@@ -24,4 +24,6 @@
     <string name="text_view_order_detial_fooditems_title">Order Details</string>
     <string name="text_view_order_detail_chief_title">Assigned Chief</string>
     <string name="text_view_order_detail_comment_title">Comment</string>
+    <string name="label_order_detail">Order Details</string>
+    <string name="label_menu">Place you order</string>
 </resources>
