@@ -152,7 +152,7 @@ public class OrderListFragment extends Fragment {
         private TextView mOrderIdTv;
         private LinearLayout mDishQuantPairsLinearLayout;
         private CheckBox mProcessed;
-        private TextView mAssignChiefTv; // Actually works as a button!!!
+        private TextView mAssignChiefTv;
 
         public OrderHolder(View itemView){
             super(itemView);
@@ -162,14 +162,7 @@ public class OrderListFragment extends Fragment {
                     (LinearLayout) itemView.findViewById(R.id.linear_layout_order_detail);
             mProcessed = (CheckBox) itemView.findViewById(R.id.checkbox_order_processed);
             mAssignChiefTv = (TextView) itemView.findViewById(R.id.text_view_assign_chief);
-            // actually works as a button!!!
 
-            mAssignChiefTv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO
-                }
-            });
             itemView.setOnClickListener(this);
         }
 

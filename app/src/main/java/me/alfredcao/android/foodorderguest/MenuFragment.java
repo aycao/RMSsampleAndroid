@@ -204,7 +204,6 @@ public class MenuFragment extends Fragment {
         nbrDialog.show(fm, DIALOG_TABLE_NUMBER);
     }
 
-
     private class FoodItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private FoodItem mFoodItem;
         private TextView mDishNameTextView;
@@ -303,21 +302,6 @@ public class MenuFragment extends Fragment {
             updateAdapter();
         }
     }
-
-    /*private class FetchMenuUsingPOSTTask extends AsyncTask<Void,Void,List<FoodItem>>{
-        @Override
-        protected List<FoodItem> doInBackground(Void... params) {
-            List<FoodItem> menu = new DataFetcher().fetchMenuUsingPOST(FETCH_MENU_POST_URL);;
-            return menu;
-        }
-
-        @Override
-        protected void onPostExecute(List<FoodItem> foodItems) {
-            super.onPostExecute(foodItems);
-            mMenu = foodItems;
-            updateAdapter();
-        }
-    }*/
 
     private class FetchMenuPOSTTask extends POSTUtils.FetchMenuUsingPOSTTask{
         @Override
