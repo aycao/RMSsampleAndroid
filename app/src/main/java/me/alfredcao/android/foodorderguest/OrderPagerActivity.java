@@ -41,7 +41,7 @@ public class OrderPagerActivity extends AppCompatActivity{
             @Override
             public Fragment getItem(int position) {
                 FoodOrder foodOrder = mFoodOrders.get(position);
-                return OrderDetailFragment.newInstance(foodOrder.getFoodOrderLocalId());
+                return new OrderDetailFragment().newInstance(foodOrder.getFoodOrderLocalId());
             }
 
             @Override

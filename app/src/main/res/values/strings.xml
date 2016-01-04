@@ -26,4 +26,6 @@
     <string name="text_view_order_detail_comment_title">Comment</string>
     <string name="label_order_detail">Order Details</string>
     <string name="label_menu">Place you order</string>
+    <string name="button_view_orders">View your orders</string>
+    <string name="button_update_order">Update</string>
 </resources>

@@ -104,13 +104,21 @@
         android:text="@string/text_view_order_detial_fooditems_title"
         style="?android:listSeparatorTextViewStyle"/>
 
-    <LinearLayout
-        android:id="@+id/linear_layout_fooditems_detail"
+    <ScrollView
+
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/TextAppearance_order_detail"
+        android:layout_height="fill_parent"
         android:orientation="vertical">
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_layout_fooditems_detail"
+            style="@style/TextAppearance_order_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

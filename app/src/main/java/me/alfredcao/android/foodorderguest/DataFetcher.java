@@ -35,6 +35,7 @@ public class DataFetcher {
     private static final int FETCH_MENU = 0;
     private static final int FETCH_ORDERS = 1;
     private static final int FETCH_CHIEFS = 2;
+    private static final int UPDATE_ORDERS = 4;
     private static final int SUBMIT_ORDER = 3;
 
     public List<FoodItem> fetchMenuDirect(String urlStr){
@@ -80,7 +81,21 @@ public class DataFetcher {
         String resultString = null;
         try{
             String postResult = makePostRequest(urlStr,SUBMIT_ORDER,foodOrder);
-            resultString = parseItemsToString(SUBMIT_ORDER,postResult);
+            resultString = parseItemsToString(SUBMIT_ORDER, postResult);
+        }catch (IOException ioe){
+            ioe.printStackTrace();
+        }catch(JSONException je){
+            je.printStackTrace();
+        }
+
+        return resultString;
+    }
+
+    public String updateOrderUsingPOST (String urlStr,FoodOrder foodOrder){
+        String resultString = null;
+        try{
+            String postResult = makePostRequest(urlStr,UPDATE_ORDERS,foodOrder);
+            resultString = parseItemsToString(UPDATE_ORDERS,postResult);
         }catch (IOException ioe){
             ioe.printStackTrace();
         }catch(JSONException je){
@@ -145,9 +160,23 @@ public class DataFetcher {
             }case FETCH_ORDERS: {
                 nameValuePairs.add(new BasicNameValuePair("request", "fetch-orders"));
                 break;
+            }case UPDATE_ORDERS: {
+                if (foodOrder == null){
+                    return "did not receive a foodOrder when trying to update order";
+                }
+                nameValuePairs.add(new BasicNameValuePair("request", "update-orders"));
+                nameValuePairs.add(new BasicNameValuePair("orderid",
+                        foodOrder.getFoodOrderLocalId().toString()));
+                nameValuePairs.add(new BasicNameValuePair("processed",
+                        String.valueOf(foodOrder.isProcessed())));
+                nameValuePairs.add(new BasicNameValuePair("cleared",
+                        String.valueOf(foodOrder.isCleared())));
+
+                Log.d(TAG,nameValuePairs.toString());
+                break;
             }case SUBMIT_ORDER: {
                 if (foodOrder == null){
-                    return "nothing";
+                    return "did not receive a foodOrder when trying to submit order";
                 }
                 /*
                 nameValuePairs.add(new BasicNameValuePair("request", "submit-order"));
@@ -226,6 +255,12 @@ public class DataFetcher {
                 JSONObject resultObject = jsonBody.getJSONObject("result");
                 boolean successed = Boolean.parseBoolean(resultObject.getString("success")) ;
                 returningString = resultObject.getString("result_string");
+                break;
+            }case UPDATE_ORDERS:{
+                JSONObject resultObject = jsonBody.getJSONObject("result");
+                boolean successed = Boolean.parseBoolean(resultObject.getString("success")) ;
+                returningString = resultObject.getString("result_string");
+                break;
             }
         }
 

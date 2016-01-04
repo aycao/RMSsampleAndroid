@@ -152,6 +152,7 @@ public class OrderListFragment extends Fragment {
         private TextView mOrderIdTv;
         private LinearLayout mDishQuantPairsLinearLayout;
         private CheckBox mProcessed;
+        private CheckBox mCleared;
         private TextView mAssignChiefTv;
 
         public OrderHolder(View itemView){
@@ -161,6 +162,9 @@ public class OrderListFragment extends Fragment {
             mDishQuantPairsLinearLayout =
                     (LinearLayout) itemView.findViewById(R.id.linear_layout_order_detail);
             mProcessed = (CheckBox) itemView.findViewById(R.id.checkbox_order_processed);
+            mCleared = (CheckBox) itemView.findViewById(R.id.checkbox_order_cleared);
+            mProcessed.setClickable(false);
+            mCleared.setClickable(false);
             mAssignChiefTv = (TextView) itemView.findViewById(R.id.text_view_assign_chief);
 
             itemView.setOnClickListener(this);
@@ -172,6 +176,7 @@ public class OrderListFragment extends Fragment {
             mTableNumberTv.setText(String.valueOf(mFoodOrder.getTableNumber()));
             mOrderIdTv.setText(mFoodOrder.getFoodOrderLocalId().toString());
             mProcessed.setChecked(mFoodOrder.isProcessed());
+            mCleared.setChecked(mFoodOrder.isCleared());
 
             mDishQuantPairsLinearLayout.removeAllViews();
             for(DishQuantPair dqp: mFoodOrder.getDishQuantPairs()){

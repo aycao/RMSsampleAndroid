@@ -120,4 +120,39 @@ public class POSTUtils {
         public abstract void updateUI();
     }
 
+    public static abstract class UpdateOrderPOSTTask extends AsyncTask<Void,Void,String>{
+
+        private String mResultMsg;
+        private String mErrMsg;
+        private boolean mHasErr;
+        private FoodOrder mFoodOrder;
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return new DataFetcher().updateOrderUsingPOST(POST_URL, mFoodOrder);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            mResultMsg = s;
+            updateUI();
+        }
+
+        public void setFoodOrder(FoodOrder foodOrder) {
+            mFoodOrder = foodOrder;
+        }
+
+        public String getErrMsg() {
+            return mErrMsg;
+        }
+        public boolean isHasErr() {
+            return mHasErr;
+        }
+        public String getResultMsg() {
+            return mResultMsg;
+        }
+        public abstract void updateUI();
+    }
+
 }

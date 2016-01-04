@@ -45,7 +45,6 @@ public class MenuFragment extends Fragment {
     private static final String DIALOG_TABLE_NUMBER = "number picker dialog";
     private static final int REQUEST_TABLE_NUMBER = 1;
 
-//    private RecyclerView mRecyclerView;
     private ListView mListView;
 
     private FoodItemAdapter mFoodItemAdapter;
@@ -55,6 +54,7 @@ public class MenuFragment extends Fragment {
     private boolean mFetchMenuErr;
     private String mSubmitResult;
     private FoodOrder mFoodOrder;
+//    private Button mButtonViewOrders;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,9 +72,9 @@ public class MenuFragment extends Fragment {
 
         mButtonTable = (Button) v.findViewById(R.id.button_table_number);
         mButtonSubmit = (Button) v.findViewById(R.id.button_submit_order);
+//        mButtonViewOrders = (Button) v.findViewById(R.id.button_view_orders);
         mInfoTextView = (TextView) v.findViewById(R.id.text_view_menu_fragment_top);
-//        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_menu_fragment);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         mListView = (ListView) v.findViewById(R.id.list_view_dish_type_section);
 
         mButtonTable.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +104,12 @@ public class MenuFragment extends Fragment {
             }
         });
 
+/*        mButtonViewOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });*/
+
         return v;
     }
 
@@ -130,6 +136,7 @@ public class MenuFragment extends Fragment {
                 return true;
             }case R.id.menu_item_refresh_menu:{
                 refreshMenu();
+                return true;
             }
             default:
                 return super.onOptionsItemSelected(item);
@@ -185,6 +192,7 @@ public class MenuFragment extends Fragment {
         if(!mFetchMenuErr) {
             MyAnimateUtils.fadeOutView(mInfoTextView);
 //            MyAnimateUtils.fadeInView(mRecyclerView);
+            MyAnimateUtils.fadeInView(mListView);
         }
         try{
             mFoodOrder.setTableNumber(Integer.parseInt(mButtonTable.getText().toString()));
@@ -198,6 +206,7 @@ public class MenuFragment extends Fragment {
         mFoodOrder = new FoodOrder();
         MyAnimateUtils.showView(mInfoTextView);
 //        MyAnimateUtils.fadeOutView(mRecyclerView);
+        MyAnimateUtils.fadeOutView(mListView);
         mInfoTextView.setText(R.string.info_refreshing);
         new FetchMenuPOSTTask().execute();
     }
@@ -242,8 +251,8 @@ public class MenuFragment extends Fragment {
 
             //remove processed ones
             foodItems.removeAll(dishTypeFoodItems);
-            Log.d(TAG, String.valueOf(dishTypeFoodItems.size()));
-            Log.d(TAG,"Added one dish Type" );
+//            Log.d(TAG, String.valueOf(dishTypeFoodItems.size()));
+//            Log.d(TAG,"Added one dish Type" );
         }
 
         ArrayAdapter dishTypeListViewAdaper =

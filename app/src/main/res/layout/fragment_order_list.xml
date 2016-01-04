@@ -8,13 +8,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/text_view_order_list_fragment_top"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="30dp"
-            android:gravity="center"
-            android:text="@string/menu_fragment_text_top"/>
 
         <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
                                                 android:orientation="vertical"
@@ -23,6 +16,15 @@
                                                 android:id="@+id/recycler_view_order_list_fragment">
 
         </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/text_view_order_list_fragment_top"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:text="@string/menu_fragment_text_top"/>
+
     </RelativeLayout>
 
 
